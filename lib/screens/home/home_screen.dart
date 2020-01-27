@@ -6,26 +6,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lm_colloseum/extensions/intl/intl_bloc.dart';
 import 'package:lm_colloseum/generated/l10n.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<HomeScreen> {
-  StreamController languageChange;
-  Stream languageStream;
-
-  _MyHomePageState() {
-    languageChange = StreamController();
-    languageStream = languageChange.stream.asBroadcastStream();
-  }
+class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          // title: Text(AppLocalization.of(context).heyWorld),
-          ),
+        // title: Text(AppLocalization.of(context).heyWorld),
+      ),
       body: Column(
         children: <Widget>[
           Container(
@@ -77,11 +65,5 @@ class _MyHomePageState extends State<HomeScreen> {
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    languageChange.close();
-    super.dispose();
   }
 }
