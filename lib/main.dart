@@ -1,7 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lm_colloseum/extensions/intl/intl_bloc.dart';
+import 'package:lm_colloseum/blocs/intl_bloc.dart';
 import 'package:lm_colloseum/generated/l10n.dart';
 import 'package:lm_colloseum/screens/home/home_screen.dart';
 
