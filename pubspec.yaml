@@ -25,6 +25,8 @@ dependencies:
   responsive_builder:
   flutter_bloc:
   equatable:
+  build:
+  source_gen:
 
 
 dev_dependencies:
