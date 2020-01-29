@@ -6,7 +6,7 @@ import 'package:lm_colloseum/generated/l10n.dart';
 class IntlBloc extends Bloc<IntlEvent, Locale> {
 
   @override
-  Locale get initialState => Locale.fromSubtags(languageCode: 'en', countryCode: 'US');
+  Locale get initialState => Locale.fromSubtags(languageCode: 'ro', countryCode: 'RO');
 
   @override
   Stream<Locale> mapEventToState(IntlEvent event) async* {

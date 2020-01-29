@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lm_colloseum/blocs/intl_bloc.dart';
 import 'package:lm_colloseum/generated/l10n.dart';
 import 'package:lm_colloseum/screens/home/home_screen.dart';
+import 'package:lm_colloseum/support/locale.dart';
 
 //void main() => runApp(MyApp());
 void main() => runApp(
@@ -15,12 +16,15 @@ void main() => runApp(
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    var intlBloc = IntlBloc();
+
     return MaterialApp(
       title: 'Colloseum',
       builder: DevicePreview.appBuilder,
-      localizationsDelegates: [S.delegate],
+      localizationsDelegates: [S.delegate, MaterialLocalizationItDelegate()],
       supportedLocales: S.delegate.supportedLocales,
-      locale: Locale.fromSubtags(languageCode: 'en'),
+      locale: intlBloc.initialState,
       theme: ThemeData(
           primarySwatch: Colors.cyan,
           accentColor: Colors.red,
@@ -32,7 +36,7 @@ class MyApp extends StatelessWidget {
       home: MultiBlocProvider(
         providers: [
           BlocProvider<IntlBloc>(
-            create: (BuildContext context) => IntlBloc(),
+            create: (BuildContext context) => intlBloc,
           ),
         ],
         child: HomeScreen(),
