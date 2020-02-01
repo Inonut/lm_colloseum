@@ -1,15 +1,26 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i18n_extension/i18n_widget.dart';
+import 'package:lm_colloseum/blocs/theme_bloc.dart';
 import 'package:lm_colloseum/extensions/translation.dart';
+import 'package:lm_colloseum/models/app_theme.enum.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          // title: Text(AppLocalization.of(context).heyWorld),
-          ),
+        // title: Text(AppLocalization.of(context).heyWorld),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.palette),
+            onPressed: () => BlocProvider.of<ThemeBloc>(context).add(AppTheme.values[Random().nextInt(3)]),
+          )
+        ],
+      ),
       body: Column(
         children: <Widget>[
           Container(
