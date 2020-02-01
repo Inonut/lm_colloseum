@@ -27,6 +27,7 @@ dependencies:
   equatable:
   build:
   source_gen:
+  i18n_extension:
 
 
 dev_dependencies:

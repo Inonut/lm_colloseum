@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lm_colloseum/blocs/intl_bloc.dart';
-import 'package:lm_colloseum/extensions/intl_extension.dart';
-import 'package:lm_colloseum/generated/l10n.dart';
+import 'package:i18n_extension/i18n_widget.dart';
+import 'package:lm_colloseum/extensions/translation.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -23,19 +21,19 @@ class HomeScreen extends StatelessWidget {
                 children: <Widget>[
                   RaisedButton(
                     textTheme: Theme.of(context).buttonTheme.textTheme,
-                    onPressed: () => BlocProvider.of<IntlBloc>(context).add(LocaleChanged(Locale.fromSubtags(languageCode: 'en', countryCode: 'US'))),
-                    child: S.of(context).text(
-                          (s) => s.engName,
-                          style: Theme.of(context).textTheme.bodyText2.apply(fontSizeDelta: 10),
-                        ),
+                    onPressed: () => I18n.of(context).locale = const Locale("en", "US"),
+                    child: Text(
+                      'English'.i18n,
+                      style: Theme.of(context).textTheme.bodyText2.apply(fontSizeDelta: 10),
+                    ),
                   ),
                   RaisedButton(
                     textTheme: Theme.of(context).buttonTheme.textTheme,
-                    onPressed: () => BlocProvider.of<IntlBloc>(context).add(LocaleChanged(Locale.fromSubtags(languageCode: 'ro', countryCode: 'RO'))),
-                    child: S.of(context).text(
-                          (s) => s.roName,
-                          style: Theme.of(context).textTheme.bodyText2.apply(fontSizeDelta: 10),
-                        ),
+                    onPressed: () => I18n.of(context).locale = const Locale("ro", "RO"),
+                    child: Text(
+                      'Romanian'.i18n,
+                      style: Theme.of(context).textTheme.bodyText2.apply(fontSizeDelta: 10),
+                    ),
                   )
                 ],
               ),
@@ -46,7 +44,7 @@ class HomeScreen extends StatelessWidget {
             child: Container(
                 decoration: BoxDecoration(color: Theme.of(context).primaryColorLight),
                 alignment: Alignment.center,
-                child: S.of(context).text((s) => s.hello('ಠ_ಠ'), style: Theme.of(context).textTheme.bodyText2.apply(fontSizeDelta: 10))),
+                child: Text('Hello %s'.i18n.fill(['ಠ_ಠ']), style: Theme.of(context).textTheme.bodyText2.apply(fontSizeDelta: 10))),
           )
         ],
       ),
