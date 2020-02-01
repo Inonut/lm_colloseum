@@ -14,6 +14,10 @@ extension Translation on String {
       {
         "en_us": 'English',
         "ro_ro": 'Engleza',
+      } +
+      {
+        "en_us": 'Details',
+        "ro_ro": 'Detali',
       };
 
   String get i18n => localize(this, _t);

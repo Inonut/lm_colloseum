@@ -1,33 +1,52 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lm_colloseum/models/app_theme.enum.dart';
 
-class ThemeBloc extends Bloc<AppTheme, ThemeData> {
+class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   @override
-  ThemeData get initialState => _appThemeData[AppTheme.GreenLight];
+  ThemeState get initialState => ThemeChanged(_appThemeData[ThemeEvent.GreenLight]);
 
   @override
-  Stream<ThemeData> mapEventToState(AppTheme event) async* {
-    yield _appThemeData[event];
+  Stream<ThemeChanged> mapEventToState(ThemeEvent event) async* {
+    yield ThemeChanged(_appThemeData[event]);
   }
 
   final _appThemeData = {
-    AppTheme.GreenLight: ThemeData(
+    ThemeEvent.GreenLight: ThemeData(
       brightness: Brightness.light,
       primarySwatch: Colors.green,
     ),
-    AppTheme.GreenDark: ThemeData(
+    ThemeEvent.GreenDark: ThemeData(
       brightness: Brightness.dark,
       primarySwatch: Colors.green,
     ),
-    AppTheme.BlueLight: ThemeData(
+    ThemeEvent.BlueLight: ThemeData(
       brightness: Brightness.light,
       primarySwatch: Colors.blue,
     ),
-    AppTheme.BlueDark: ThemeData(
+    ThemeEvent.BlueDark: ThemeData(
       brightness: Brightness.dark,
       primarySwatch: Colors.blue,
     ),
   };
+}
+
+enum ThemeEvent {
+  GreenLight,
+  GreenDark,
+  BlueLight,
+  BlueDark,
+}
+
+abstract class ThemeState extends Equatable {
+  const ThemeState();
+}
+
+class ThemeChanged extends ThemeState {
+  final ThemeData theme;
+
+  const ThemeChanged(ThemeData this.theme);
+
+  @override
+  List<Object> get props => [this.theme];
 }

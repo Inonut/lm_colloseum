@@ -3,10 +3,9 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:i18n_extension/i18n_widget.dart';
+import 'package:lm_colloseum/blocs/i18n_bloc.dart';
 import 'package:lm_colloseum/blocs/theme_bloc.dart';
 import 'package:lm_colloseum/extensions/translation.dart';
-import 'package:lm_colloseum/models/app_theme.enum.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -17,7 +16,7 @@ class HomeScreen extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.palette),
-            onPressed: () => BlocProvider.of<ThemeBloc>(context).add(AppTheme.values[Random().nextInt(3)]),
+            onPressed: () => BlocProvider.of<ThemeBloc>(context).add(ThemeEvent.values[Random().nextInt(3)]),
           )
         ],
       ),
@@ -32,7 +31,7 @@ class HomeScreen extends StatelessWidget {
                 children: <Widget>[
                   RaisedButton(
                     textTheme: Theme.of(context).buttonTheme.textTheme,
-                    onPressed: () => I18n.of(context).locale = const Locale("en", "US"),
+                    onPressed: () => BlocProvider.of<I18nBloc>(context).add(I18NEvent.EN),
                     child: Text(
                       'English'.i18n,
                       style: Theme.of(context).textTheme.bodyText2.apply(fontSizeDelta: 10),
@@ -40,7 +39,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   RaisedButton(
                     textTheme: Theme.of(context).buttonTheme.textTheme,
-                    onPressed: () => I18n.of(context).locale = const Locale("ro", "RO"),
+                    onPressed: () => BlocProvider.of<I18nBloc>(context).add(I18NEvent.RO),
                     child: Text(
                       'Romanian'.i18n,
                       style: Theme.of(context).textTheme.bodyText2.apply(fontSizeDelta: 10),
