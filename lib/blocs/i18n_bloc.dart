@@ -2,20 +2,21 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i18n_extension/i18n_widget.dart';
+import 'package:lm_colloseum/models/enums/language.enum.dart';
 
 class I18nBloc extends Bloc<I18NEvent, I18NState> {
   @override
   I18NState get initialState {
-    var locale = const Locale("ro", "RO");
-    I18n.define(locale);
-    return LocaleChanged(locale);
+    I18n.define(LanguageEnum.RO.locale);
+    return LocaleChanged(LanguageEnum.RO.locale);
   }
 
   @override
   Stream<I18NState> mapEventToState(I18NEvent event) async* {
-    switch(event) {
-      case I18NEvent.RO: yield* _emitLocale(const Locale("ro", "RO")); break;
-      case I18NEvent.EN: yield* _emitLocale(const Locale("en", "US")); break;
+    if(event is RomanianLang) {
+      yield* _emitLocale(LanguageEnum.RO.locale);
+    } else if(event is EnglishLang) {
+      yield* _emitLocale(LanguageEnum.EN.locale);
     }
   }
 
@@ -25,10 +26,14 @@ class I18nBloc extends Bloc<I18NEvent, I18NState> {
   }
 }
 
-enum I18NEvent {
-  EN,
-  RO
+abstract class I18NEvent extends Equatable {
+  const I18NEvent();
+
+  @override
+  List<Object> get props => [];
 }
+class RomanianLang extends I18NEvent {}
+class EnglishLang extends I18NEvent {}
 
 abstract class I18NState extends Equatable {
   const I18NState();

@@ -1,22 +1,18 @@
-import 'dart:async';
-
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:i18n_extension/i18n_widget.dart';
 import 'package:lm_colloseum/blocs/i18n_bloc.dart';
 import 'package:lm_colloseum/blocs/navigation_bloc.dart';
 import 'package:lm_colloseum/blocs/theme_bloc.dart';
-import 'package:lm_colloseum/screens/detail/detail_screen.dart';
-import 'package:lm_colloseum/screens/home/home_screen.dart';
+import 'package:lm_colloseum/models/enums/language.enum.dart';
+import 'package:lm_colloseum/models/enums/route.enum.dart';
+import 'package:lm_colloseum/route.dart';
 
 //void main() => runApp(MyApp());
-void main() => runApp(
-      DevicePreview(
-        builder: (context) => App(),
-      ),
-    );
+void main() => runApp(DevicePreview(
+  builder: (context) => App(),
+));
 
 class App extends StatelessWidget {
   @override
@@ -29,48 +25,22 @@ class App extends StatelessWidget {
         BlocProvider<I18nBloc>(
           create: (BuildContext context) => I18nBloc(),
         ),
+        BlocProvider<NavigationBloc>(
+          create: (BuildContext context) => NavigationBloc(),
+        ),
       ],
-      child: AppListeners(),
+      child: BlocBuilder<I18nBloc, I18NState> (
+        builder: (_, i18nState) => BlocBuilder<ThemeBloc, ThemeState>(
+          builder: (_, themeState) => _buildApp(
+              (i18nState as LocaleChanged).locale,
+              (themeState as ThemeChanged).theme
+          ),
+        ),
+      ),
     );
   }
-}
 
-class AppListeners extends StatefulWidget {
-  @override
-  State createState() => _AppState();
-}
-
-class _AppState extends State<AppListeners> {
-  var _reloadCtrl = StreamController();
-
-  @override
-  Widget build(BuildContext context) => MultiBlocListener(
-    listeners: [
-      BlocListener<I18nBloc, I18NState>(
-        listener: (context, state) => this._reloadCtrl.add(null),
-      ),
-      BlocListener<ThemeBloc, ThemeState>(
-        listener: (context, state) => this._reloadCtrl.add(null),
-      )
-    ],
-    child: StreamBuilder<Object>(
-        stream: _reloadCtrl.stream,
-        builder: (context, snapshot) {
-          return ColosseumApp();
-        }
-    ),
-  );
-
-  @override
-  void dispose() {
-    this._reloadCtrl.close();
-    super.dispose();
-  }
-}
-
-class ColosseumApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildApp(locale, theme) {
     return MaterialApp(
       title: 'Colosseum',
       builder: DevicePreview.appBuilder,
@@ -80,15 +50,17 @@ class ColosseumApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
-        const Locale('en', "US"),
-        const Locale('ro', "RO"),
+        LanguageEnum.EN.locale,
+        LanguageEnum.RO.locale,
       ],
-      theme: (BlocProvider.of<ThemeBloc>(context).state as ThemeChanged).theme,
-      routes: {
-        HomeRoute().route: (context) => HomeScreen(),
-        DetailsRoute().route: (context) => DetailScreen()
-      },
-      initialRoute: HomeRoute().route,
+      theme: theme,
+      locale: locale,
+      home: Navigator(
+        key: NavigationBloc.navigatorKey,
+        onGenerateRoute: generateRoute,
+        initialRoute: RouteEnum.Home.str,
+      ),
+
     );
   }
 }

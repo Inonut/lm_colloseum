@@ -18,6 +18,14 @@ extension Translation on String {
       {
         "en_us": 'Details',
         "ro_ro": 'Detali',
+      } +
+      {
+        "en_us": 'Settings',
+        "ro_ro": 'Setari',
+      } +
+      {
+        "en_us": 'Back',
+        "ro_ro": 'Inapoi',
       };
 
   String get i18n => localize(this, _t);
