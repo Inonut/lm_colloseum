@@ -8,6 +8,7 @@ import 'package:lm_colloseum/blocs/theme_bloc.dart';
 import 'package:lm_colloseum/models/enums/language.enum.dart';
 import 'package:lm_colloseum/models/enums/route.enum.dart';
 import 'package:lm_colloseum/route.dart';
+import 'package:lm_colloseum/screens/template/template_screen.dart';
 
 //void main() => runApp(MyApp());
 void main() => runApp(DevicePreview(
@@ -55,12 +56,7 @@ class App extends StatelessWidget {
       ],
       theme: theme,
       locale: locale,
-      home: Navigator(
-        key: NavigationBloc.navigatorKey,
-        onGenerateRoute: generateRoute,
-        initialRoute: RouteEnum.Home.str,
-      ),
-
+      home: TemplateScreen(),
     );
   }
 }

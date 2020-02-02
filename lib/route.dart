@@ -4,10 +4,18 @@ import 'package:lm_colloseum/models/enums/route.enum.dart';
 import 'package:lm_colloseum/screens/home/home_screen.dart';
 import 'package:lm_colloseum/screens/settings/settings_screen.dart';
 
-Route<dynamic> generateRoute(RouteSettings settings) {
-  if(settings.name == RouteEnum.Home.str) {
+Route<dynamic> generateRouteTablet(RouteSettings settings) {
+  if (settings.name == RouteEnum.Home.str) {
     return _getPageRoute(HomeScreen(), settings);
-  } else if(settings.name == RouteEnum.Settings.str) {
+  }
+
+  return _getPageRoute(HomeScreen(), settings);
+}
+
+Route<dynamic> generateRoutePhone(RouteSettings settings) {
+  if (settings.name == RouteEnum.Home.str) {
+    return _getPageRoute(HomeScreen(), settings);
+  } else if (settings.name == RouteEnum.Settings.str) {
     return _getPageRoute(SettingsScreen(), settings);
   }
 
@@ -24,22 +32,40 @@ class _FadeRoute extends PageRouteBuilder {
 
   _FadeRoute({this.child, this.routeName})
       : super(
-          settings: RouteSettings(name: routeName),
-          pageBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-          ) =>
-              child,
-          transitionsBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child,
-          ) =>
-              FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
-        );
+            settings: RouteSettings(name: routeName),
+            pageBuilder: (
+              BuildContext context,
+              Animation<double> animation,
+              Animation<double> secondaryAnimation,
+            ) =>
+                child,
+            transitionsBuilder: (
+              BuildContext context,
+              Animation<double> animation,
+              Animation<double> secondaryAnimation,
+              Widget child,
+            ) =>
+                ScaleTransition(
+                  scale: Tween<double>(
+                    begin: 0.0,
+                    end: 1.0,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.fastOutSlowIn,
+                    ),
+                  ),
+                  child: RotationTransition(
+                    turns: Tween<double>(
+                      begin: 0.0,
+                      end: 1.0,
+                    ).animate(
+                      CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.linear,
+                      ),
+                    ),
+                    child: child,
+                  ),
+                ));
 }

@@ -9,7 +9,7 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   List<RouteEnum> _routePath = [RouteEnum.Home];
 
   @override
-  NavigationState get initialState => NavigationChanged(RouteEnum.Home.str);
+  NavigationState get initialState => NavigationChanged(RouteEnum.Home);
 
   @override
   Stream<NavigationState> mapEventToState(NavigationEvent event) async* {
@@ -23,21 +23,27 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   }
 
   Stream<NavigationState> _mapHomeRouteToState(HomeRoute event) async* {
-    this._routePath.add(RouteEnum.Home);
-    NavigationBloc.navigatorKey.currentState.pushNamed(RouteEnum.Home.str);
-    yield NavigationChanged(RouteEnum.Home.str);
+    yield* _mapPushRouteToState(RouteEnum.Home);
   }
 
   Stream<NavigationState> _mapSettingsRouteToState(SettingsRoute event) async* {
-    this._routePath.add(RouteEnum.Settings);
-    NavigationBloc.navigatorKey.currentState.pushNamed(RouteEnum.Settings.str);
-    yield NavigationChanged(RouteEnum.Settings.str);
+    yield* _mapPushRouteToState(RouteEnum.Settings);
   }
 
   Stream<NavigationState> _mapBackRouteToState(BackRoute event) async* {
     this._routePath.removeLast();
     NavigationBloc.navigatorKey.currentState.pop();
-    yield NavigationChanged(this._routePath.last.str);
+    yield NavigationChanged(this._routePath.last);
+  }
+
+  Stream<NavigationState> _mapPushRouteToState(RouteEnum routeEnum) async* {
+    if(!this._routePath.contains(routeEnum)) {
+      this._routePath.add(routeEnum);
+      NavigationBloc.navigatorKey.currentState.pushNamed(routeEnum.str);
+      yield NavigationChanged(routeEnum);
+    } else {
+      yield* _mapBackRouteToState(BackRoute());
+    }
   }
 }
 
@@ -56,20 +62,15 @@ class BackRoute extends NavigationEvent {}
 
 abstract class NavigationState extends Equatable {
   const NavigationState();
+
+  RouteEnum get route;
 }
 
 class NavigationChanged extends NavigationState {
-  final String route;
+  final RouteEnum route;
 
   const NavigationChanged(this.route);
 
   @override
   List<Object> get props => [this.route];
-}
-
-class Back extends NavigationState {
-  const Back();
-
-  @override
-  List<Object> get props => [];
 }
