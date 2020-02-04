@@ -10,27 +10,46 @@ import 'package:lm_colloseum/screens/settings/settings_screen.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class TemplateScreen extends StatelessWidget {
+  final Widget child;
+
+  TemplateScreen(Widget this.child);
+
   @override
   Widget build(BuildContext context) {
-    return ScreenTypeLayout(
-      mobile: _TemplateScreenPhone(),
-      tablet: _TemplateScreenTablet(),
-      desktop: _TemplateScreenTablet(),
+    return ResponsiveBuilder(
+      builder: (context, sizingInformation) {
+        var currentRoute = BlocProvider.of<NavigationBloc>(context).state.route;
+        if(sizingInformation.isDesktop) {
+          if(currentRoute == RouteEnum.Settings) {
+            BlocProvider.of<NavigationBloc>(context).add(HomeRoute());
+          }
+          return _TemplateScreenTablet(child);
+        }
+        if(sizingInformation.isTablet) {
+          if(currentRoute == RouteEnum.Settings.str) {
+            BlocProvider.of<NavigationBloc>(context).add(HomeRoute());
+          }
+          return _TemplateScreenTablet(child);
+        }
+
+        return _TemplateScreenMobile(child);
+      },
     );
   }
 }
 
-class _TemplateScreenPhone extends StatelessWidget {
+class _TemplateScreenMobile extends StatelessWidget {
+  final Widget child;
+
+  _TemplateScreenMobile(Widget this.child);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) => Scaffold(
           appBar: AppBar(title: Text(Random().nextDouble().toString()), actions: _buildAction(context, state.route)),
-          body: Navigator(
-            key: NavigationBloc.navigatorKey,
-            onGenerateRoute: generateRoutePhone,
-            initialRoute: RouteEnum.Home.str,
-          )),
+          body: child,
+      ),
     );
   }
 
@@ -56,6 +75,10 @@ class _TemplateScreenPhone extends StatelessWidget {
 }
 
 class _TemplateScreenTablet extends StatelessWidget {
+  final Widget child;
+
+  _TemplateScreenTablet(Widget this.child);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationBloc, NavigationState>(
@@ -72,11 +95,8 @@ class _TemplateScreenTablet extends StatelessWidget {
           drawer: Drawer(
             child: SettingsScreen(),
           ),
-          body: Navigator(
-            key: NavigationBloc.navigatorKey,
-            onGenerateRoute: generateRouteTablet,
-            initialRoute: RouteEnum.Home.str,
-          )),
+          body: child,
+      ),
     );
   }
 }

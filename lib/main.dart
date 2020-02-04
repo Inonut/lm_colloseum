@@ -9,11 +9,9 @@ import 'package:lm_colloseum/models/enums/language.enum.dart';
 import 'package:lm_colloseum/models/enums/route.enum.dart';
 import 'package:lm_colloseum/route.dart';
 import 'package:lm_colloseum/screens/template/template_screen.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
-//void main() => runApp(MyApp());
-void main() => runApp(DevicePreview(
-  builder: (context) => App(),
-));
+void main() => runApp(App());
 
 class App extends StatelessWidget {
   @override
@@ -30,12 +28,9 @@ class App extends StatelessWidget {
           create: (BuildContext context) => NavigationBloc(),
         ),
       ],
-      child: BlocBuilder<I18nBloc, I18NState> (
+      child: BlocBuilder<I18nBloc, I18NState>(
         builder: (_, i18nState) => BlocBuilder<ThemeBloc, ThemeState>(
-          builder: (_, themeState) => _buildApp(
-              (i18nState as LocaleChanged).locale,
-              (themeState as ThemeChanged).theme
-          ),
+          builder: (_, themeState) => _buildApp(i18nState.locale, themeState.theme),
         ),
       ),
     );
@@ -44,7 +39,7 @@ class App extends StatelessWidget {
   Widget _buildApp(locale, theme) {
     return MaterialApp(
       title: 'Colosseum',
-      builder: DevicePreview.appBuilder,
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -56,7 +51,24 @@ class App extends StatelessWidget {
       ],
       theme: theme,
       locale: locale,
-      home: TemplateScreen(),
+      builder: (context, child) => TemplateScreen(child),
+      home: ScreenTypeLayout(
+        mobile: Navigator(
+          key: NavigationBloc.navigatorKey,
+          onGenerateRoute: generateRouteMobile,
+          initialRoute: RouteEnum.Home.str,
+        ),
+        tablet: Navigator(
+          key: NavigationBloc.navigatorKey,
+          onGenerateRoute: generateRouteTablet,
+          initialRoute: RouteEnum.Home.str,
+        ),
+        desktop:Navigator(
+          key: NavigationBloc.navigatorKey,
+          onGenerateRoute: generateRouteTablet,
+          initialRoute: RouteEnum.Home.str,
+        ),
+      ),
     );
   }
 }

@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
                   onPressed: () => BlocProvider.of<I18nBloc>(context).add(EnglishLang()),
                   child: Text(
                     'English'.i18n,
-                    style: Theme.of(context).textTheme.bodyText2.apply(fontSizeDelta: 10),
+                    style: Theme.of(context).textTheme.body2.apply(fontSizeDelta: 10),
                   ),
                 ),
                 RaisedButton(
@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                   onPressed: () => BlocProvider.of<I18nBloc>(context).add(RomanianLang()),
                   child: Text(
                     'Romanian'.i18n,
-                    style: Theme.of(context).textTheme.bodyText2.apply(fontSizeDelta: 10),
+                    style: Theme.of(context).textTheme.body2.apply(fontSizeDelta: 10),
                   ),
                 )
               ],
@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
           child: Container(
               decoration: BoxDecoration(color: Theme.of(context).primaryColorLight),
               alignment: Alignment.center,
-              child: Text('Hello %s'.i18n.fill(['ಠ_ಠ']), style: Theme.of(context).textTheme.bodyText2.apply(fontSizeDelta: 10))),
+              child: Text('Hello %s'.i18n.fill(['ಠ_ಠ']), style: Theme.of(context).textTheme.body2.apply(fontSizeDelta: 10))),
         ),
       ],
     );

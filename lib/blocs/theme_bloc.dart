@@ -35,6 +35,8 @@ class BlueDarkTheme extends ThemeEvent {}
 
 abstract class ThemeState extends Equatable {
   const ThemeState();
+
+  ThemeData get theme;
 }
 
 class ThemeChanged extends ThemeState {

@@ -37,6 +37,8 @@ class EnglishLang extends I18NEvent {}
 
 abstract class I18NState extends Equatable {
   const I18NState();
+
+  Locale get locale;
 }
 
 class LocaleChanged extends I18NState {

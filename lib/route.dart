@@ -12,7 +12,7 @@ Route<dynamic> generateRouteTablet(RouteSettings settings) {
   return _getPageRoute(HomeScreen(), settings);
 }
 
-Route<dynamic> generateRoutePhone(RouteSettings settings) {
+Route<dynamic> generateRouteMobile(RouteSettings settings) {
   if (settings.name == RouteEnum.Home.str) {
     return _getPageRoute(HomeScreen(), settings);
   } else if (settings.name == RouteEnum.Settings.str) {
