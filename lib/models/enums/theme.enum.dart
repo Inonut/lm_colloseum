@@ -8,7 +8,7 @@ enum ThemeEnum {
 }
 
 extension ThemeMethods on ThemeEnum {
-  ThemeData get themeData {
+  ThemeData get asObject {
     switch (this) {
       case ThemeEnum.GreenLight: return _greenLight;
       case ThemeEnum.GreenDark: return _greenDark;

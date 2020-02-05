@@ -30,6 +30,14 @@ extension Translation on String {
       {
         "en_us": 'A nice menu with settings',
         "ro_ro": 'Meniul cu setari :)',
+      } +
+      {
+        "en_us": 'Language',
+        "ro_ro": 'Limba',
+      } +
+      {
+        "en_us": 'Theme',
+        "ro_ro": 'Tema',
       };
 
   String get i18n => localize(this, _t);

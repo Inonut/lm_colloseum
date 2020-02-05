@@ -5,18 +5,18 @@ import 'package:lm_colloseum/models/enums/theme.enum.dart';
 
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   @override
-  ThemeState get initialState => ThemeChanged(ThemeEnum.GreenLight.themeData);
+  ThemeState get initialState => ThemeChanged(ThemeEnum.GreenLight);
 
   @override
   Stream<ThemeChanged> mapEventToState(ThemeEvent event) async* {
     if(event is GreenLightTheme) {
-      yield ThemeChanged(ThemeEnum.GreenLight.themeData);
+      yield ThemeChanged(ThemeEnum.GreenLight);
     } else if(event is GreenDarkTheme) {
-      yield ThemeChanged(ThemeEnum.GreenDark.themeData);
+      yield ThemeChanged(ThemeEnum.GreenDark);
     } else if(event is BlueLightTheme) {
-      yield ThemeChanged(ThemeEnum.BlueLight.themeData);
+      yield ThemeChanged(ThemeEnum.BlueLight);
     } else if(event is BlueDarkTheme) {
-      yield ThemeChanged(ThemeEnum.BlueDark.themeData);
+      yield ThemeChanged(ThemeEnum.BlueDark);
     }
   }
 }
@@ -36,13 +36,13 @@ class BlueDarkTheme extends ThemeEvent {}
 abstract class ThemeState extends Equatable {
   const ThemeState();
 
-  ThemeData get theme;
+  ThemeEnum get theme;
 }
 
 class ThemeChanged extends ThemeState {
-  final ThemeData theme;
+  final ThemeEnum theme;
 
-  const ThemeChanged(ThemeData this.theme);
+  const ThemeChanged(ThemeEnum this.theme);
 
   @override
   List<Object> get props => [this.theme];

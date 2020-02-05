@@ -7,21 +7,21 @@ import 'package:lm_colloseum/models/enums/language.enum.dart';
 class I18nBloc extends Bloc<I18NEvent, I18NState> {
   @override
   I18NState get initialState {
-    I18n.define(LanguageEnum.RO.locale);
-    return LocaleChanged(LanguageEnum.RO.locale);
+    I18n.define(LanguageEnum.RO.asObject);
+    return LocaleChanged(LanguageEnum.RO);
   }
 
   @override
   Stream<I18NState> mapEventToState(I18NEvent event) async* {
     if(event is RomanianLang) {
-      yield* _emitLocale(LanguageEnum.RO.locale);
+      yield* _emitLocale(LanguageEnum.RO);
     } else if(event is EnglishLang) {
-      yield* _emitLocale(LanguageEnum.EN.locale);
+      yield* _emitLocale(LanguageEnum.EN);
     }
   }
 
-  Stream<LocaleChanged> _emitLocale(Locale locale) async* {
-    I18n.define(locale);
+  Stream<LocaleChanged> _emitLocale(LanguageEnum locale) async* {
+    I18n.define(locale.asObject);
     yield LocaleChanged(locale);
   }
 }
@@ -38,13 +38,13 @@ class EnglishLang extends I18NEvent {}
 abstract class I18NState extends Equatable {
   const I18NState();
 
-  Locale get locale;
+  LanguageEnum get locale;
 }
 
 class LocaleChanged extends I18NState {
-  final Locale locale;
+  final LanguageEnum locale;
 
-  const LocaleChanged(Locale this.locale);
+  const LocaleChanged(LanguageEnum this.locale);
 
   @override
   List<Object> get props => [this.locale];

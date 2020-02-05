@@ -6,6 +6,7 @@ import 'package:lm_colloseum/blocs/i18n_bloc.dart';
 import 'package:lm_colloseum/blocs/navigation_bloc.dart';
 import 'package:lm_colloseum/blocs/theme_bloc.dart';
 import 'package:lm_colloseum/models/enums/language.enum.dart';
+import 'package:lm_colloseum/models/enums/theme.enum.dart';
 import 'package:lm_colloseum/models/enums/route.enum.dart';
 import 'package:lm_colloseum/route.dart';
 import 'package:lm_colloseum/screens/template/template_screen.dart';
@@ -30,7 +31,7 @@ class App extends StatelessWidget {
       ],
       child: BlocBuilder<I18nBloc, I18NState>(
         builder: (_, i18nState) => BlocBuilder<ThemeBloc, ThemeState>(
-          builder: (_, themeState) => _buildApp(i18nState.locale, themeState.theme),
+          builder: (_, themeState) => _buildApp(i18nState.locale.asObject, themeState.theme.asObject),
         ),
       ),
     );
@@ -46,8 +47,8 @@ class App extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
-        LanguageEnum.EN.locale,
-        LanguageEnum.RO.locale,
+        LanguageEnum.EN.asObject,
+        LanguageEnum.RO.asObject,
       ],
       theme: theme,
       locale: locale,
