@@ -26,7 +26,7 @@ class TemplateScreen extends StatelessWidget {
           return _TemplateScreenTablet(child);
         }
         if(sizingInformation.isTablet) {
-          if(currentRoute == RouteEnum.Settings.str) {
+          if(currentRoute == RouteEnum.Settings) {
             BlocProvider.of<NavigationBloc>(context).add(HomeRoute());
           }
           return _TemplateScreenTablet(child);
